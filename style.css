@@ -1,0 +1,619 @@
+body {
+  background: #0a0e1f;
+  background-image: linear-gradient(to bottom, #0a0e1f, #141b33, #1b2040);
+  font-family: 'Inter', 'Sarabun', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: #e0e6ff;
+}
+
+/* กรอบหลักของแอป */
+.container {
+  max-width: 900px; /* เพิ่มจาก 540px */
+  width: 100%;
+  margin: 40px auto 0 auto;
+  background: rgba(16, 23, 45, 0.85);
+  border-radius: 24px;
+  box-shadow: 0 4px 32px rgba(81, 146, 255, 0.15);
+  padding: 0 0 32px 0;
+  overflow: hidden;
+  border: 1px solid rgba(116, 155, 255, 0.15);
+  display: flex; /* Use flex for sidebar layout */
+  flex-direction: column; /* Stack header and chat wrapper */
+}
+
+/* กรอบรวมสำหรับแถบด้านข้างและพื้นที่แชท */
+#chat-wrapper {
+  display: flex; /* จัดวางแถบด้านข้างและพื้นที่แชทหลักข้างกัน */
+  flex: 1; /* อนุญาตให้กรอบนี้ขยายเต็มพื้นที่ */
+}
+
+/* สไตล์แถบด้านข้าง */
+#sidebar {
+  width: 200px; /* ความกว้างคงที่สำหรับแถบด้านข้าง */
+  background: rgba(10, 14, 31, 0.7); /* พื้นหลังแตกต่างเล็กน้อย */
+  border-right: 1px solid rgba(116, 155, 255, 0.15);
+  padding: 20px 0 0 0; /* ระยะห่างด้านบน, ไม่รวมด้านล่างสำหรับปุ่มสลับ */
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s, min-width 0.2s;
+  min-width: 200px;
+  max-width: 220px;
+  position: relative;
+}
+
+/* สถานะเมื่อแถบด้านข้างถูกยุบ */
+#sidebar.collapsed {
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  padding: 0 !important;
+  border-right: none;
+}
+
+/* ซ่อนเนื้อหาภายในแถบด้านข้างเมื่อยุบ (ยกเว้นปุ่ม) */
+#sidebar.collapsed > *:not(#toggle-sidebar-btn) {
+  display: none !important;
+}
+
+/* สไตล์ปุ่มสลับแถบด้านข้าง - สไตล์เก่าถูกลบออก */
+/* ลบ position: absolute, top, right, z-index, etc. */
+
+/* สไตล์ใหม่สำหรับปุ่มสลับใน Header */
+#user-controls #toggle-sidebar-btn {
+  background-color: rgba(30, 40, 80, 0.6);
+  color: #b0bae6;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+  padding: 6px 10px; /* ปรับระยะห่างเล็กน้อย */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 8px; /* ระยะห่างระหว่างปุ่มสลับและปุ่มแชทใหม่ */
+  font-size: 1rem; /* ขนาดตัวอักษรให้เท่ากับปุ่มอื่น */
+  display: block; /* ทำให้แสดงผลเมื่อ user-controls แสดง */
+}
+
+#user-controls #toggle-sidebar-btn:hover {
+  background-color: rgba(81, 113, 255, 0.3);
+  color: #e0e6ff;
+}
+/* END NEW STYLES */
+
+#sidebar h2 {
+  font-size: 1.1rem;
+  color: #a2b3ff;
+  padding: 0 15px 10px 15px;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid rgba(116, 155, 255, 0.1);
+}
+
+#session-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* อนุญาตให้รายการขยายเต็มพื้นที่ */
+  overflow-y: auto; /* เลื่อนภายในรายการ */
+  max-height: 450px; /* เพิ่ม max-height ให้เท่ากับกล่องข้อความแชท */
+}
+
+#session-list li {
+  padding: 8px 15px;
+  color: #b0bae6;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(116, 155, 255, 0.05);
+  transition: background-color 0.2s, color 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis; /* เพิ่ม ... สำหรับชื่อ/ข้อความยาวๆ */
+  font-size: 0.9rem;
+}
+
+#session-list li:hover {
+  background-color: rgba(30, 40, 80, 0.5);
+  color: #e0e6ff;
+}
+
+#session-list li.active {
+  background-color: #5171ff;
+  color: #fff;
+  font-weight: 600;
+}
+
+#session-list li:last-child {
+  border-bottom: none;
+}
+
+
+header {
+  background: rgba(20, 30, 60, 0.8);
+  padding: 36px 0 18px 0;
+  text-align: center;
+  border-bottom: 1.5px solid rgba(116, 155, 255, 0.2);
+}
+
+.logo {
+  font-size: 2.2rem;
+  color: #7b91ff;
+  margin-bottom: 6px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-family: 'Sarabun', 'Inter', Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e0e6ff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ปรับพื้นที่แชทหลัก */
+main#chat-container { /* เลือกพื้นที่แชทหลักโดยเฉพาะ */
+  flex: 1; /* อนุญาตให้พื้นที่หลักใช้พื้นที่ที่เหลือ */
+  padding: 0 28px 20px 28px; /* เพิ่มระยะห่างด้านล่าง */
+  display: flex;
+  flex-direction: column; /* Stack messages and input form */
+  transition: margin 0.2s, width 0.2s;
+}
+
+/* ขยายพื้นที่แชทเมื่อแถบด้านข้างถูกซ่อน */
+#sidebar.collapsed + main#chat-container {
+  margin-left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#chat-messages {
+  min-height: 220px;
+  max-height: 450px; /* เพิ่ม max-height */
+  overflow-y: auto;
+  margin: 32px 0 18px 0;
+  gap: 14px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  animation: fadeInMsg 0.5s;
+}
+
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.message.user .bubble {
+  align-self: flex-end;
+  background: linear-gradient(90deg, #5171ff 0%, #7b91ff 100%);
+  color: #fff;
+  border-bottom-right-radius: 8px;
+}
+
+.message.bot .bubble {
+  align-self: flex-start;
+  background: rgba(30, 40, 80, 0.6);
+  color: #e0e6ff;
+  border-bottom-left-radius: 8px;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+}
+
+.bubble {
+  padding: 13px 18px;
+  border-radius: 20px;
+  max-width: 95%;
+  font-size: 1rem;
+  line-height: 1.5;
+  box-shadow: 0 1px 6px rgba(81, 113, 255, 0.15);
+  margin-bottom: 2px;
+}
+
+/* แถวสำหรับช่องพิมพ์ข้อความ */
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  background: rgba(30, 40, 80, 0.6);
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(81, 113, 255, 0.1);
+  padding: 8px 12px;
+  gap: 8px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+}
+
+#chat-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  padding: 10px 8px;
+  outline: none;
+  color: #e0e6ff;
+}
+
+.icon-btn {
+  background: rgba(40, 50, 95, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.3rem;
+  color: #7b91ff;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(81, 113, 255, 0.2);
+  margin-right: 2px;
+}
+
+.icon-btn:hover {
+  background: #5171ff;
+  color: #fff;
+}
+
+/* ปุ่มส่งข้อความ */
+.send-btn {
+  background: #5171ff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-left: 2px;
+}
+
+.send-btn:hover {
+  background: #7b91ff;
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(123, 145, 255, 0.6);
+}
+
+/* ปุ่ม Action */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+/* ปุ่ม Action แต่ละปุ่ม */
+.action-btn {
+  flex: 1 1 120px;
+  background: rgba(30, 40, 80, 0.6);
+  color: #e0e6ff;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 2px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(81, 113, 255, 0.1);
+  transition: background 0.2s, color 0.2s;
+}
+
+.action-btn:hover {
+  background: #5171ff;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(123, 145, 255, 0.4);
+}
+
+@media (max-width: 600px) {
+  .container {
+    max-width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  main {
+    padding: 0 8px;
+  }
+  #chat-messages {
+    min-height: 120px;
+    max-height: 220px;
+  }
+  
+  /* ปรับแถบด้านข้างสำหรับจอเล็ก */
+  #sidebar {
+      width: 150px; /* แถบด้านข้างแคบลง */
+  }
+  #sidebar h2 {
+      font-size: 1rem;
+      padding: 0 10px 8px 10px;
+  }
+   #session-list li {
+      padding: 8px 10px;
+      font-size: 0.85rem;
+  }
+   main#chat-container {
+       padding: 0 15px; /* ลดระยะห่าง */
+   }
+   /* ปรับปุ่มควบคุมใน header สำหรับจอเล็ก */
+   #user-controls {
+      padding-right: 10px; /* ลดระยะห่าง */
+      justify-content: center; /* จัดปุ่มกลาง */
+      margin-top: 10px; /* เพิ่มระยะห่างด้านบน */
+   }
+   #user-controls button {
+       padding: 5px 8px; /* ปุ่มเล็กลงเล็กน้อย */
+       font-size: 0.9rem;
+   }
+   /* ซ่อนแถบด้านข้างอัตโนมัติบนมือถือ */
+   #sidebar {
+       /* ใช้สไตล์ collapsed โดยตรง */
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        padding: 0 !important;
+        border-right: none;
+   }
+    #sidebar > *:not(#toggle-sidebar-btn) {
+        /* ทำให้เนื้อหาภายในถูกซ่อนไว้ตอนแรก */
+        display: none !important;
+    }
+    /* ทำให้ container หลักกว้างเต็มที่เมื่อแถบด้านข้างยุบ */
+    #sidebar.collapsed + main#chat-container { /* เพิ่มความเฉพาะเจาะจง */
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 15px !important; /* Keep some padding */
+        padding-right: 15px !important; /* Keep some padding */
+        display: flex !important; /* ทำให้มองเห็น */
+    }
+
+    /* สไตล์สำหรับแถบด้านข้างที่เปิดบนมือถือ */
+    #sidebar:not(.collapsed) {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        padding: 20px !important; /* Add padding back */
+        overflow-y: auto !important; /* อนุญาตให้แถบด้านข้างเลื่อนเองได้ */
+        border-right: none !important; /* ไม่ต้องมีเส้นขอบเมื่อเปิด */
+        display: flex !important; /* ใช้ flex สำหรับ layout แบบ column */
+        flex-direction: column !important;
+    }
+    /* ทำให้ children มองเห็นเมื่อเปิด - เฉพาะเจาะจงมากขึ้น */
+     #sidebar:not(.collapsed) h2 {
+        display: block !important; /* แสดง header */
+        /* คืนค่าสไตล์ h2 */
+        font-size: 1.1rem;
+        color: #a2b3ff;
+        padding: 0 0 10px 0; /* Adjust padding */
+        margin: 0 0 10px 0;
+        border-bottom: 1px solid rgba(116, 155, 255, 0.1);
+        flex-shrink: 0; /* ป้องกัน header หดตัว */
+    }
+    #sidebar:not(.collapsed) #session-list {
+        display: block !important; /* แสดงรายการ */
+        /* คืนค่าสไตล์รายการ */
+        max-height: none !important; /* ลบ giới hạn chiều cao khi toàn màn hình */
+        flex-grow: 1; 
+        overflow-y: auto; /* Allow list to scroll */
+    }
+     #sidebar:not(.collapsed) #session-list li {
+         /* ทำให้รายการมองเห็นและมีสไตล์ */
+        display: block;
+        padding: 8px 15px;
+        color: #b0bae6;
+        overflow: hidden; /* คงไว้สำหรับ ellipsis */
+        text-overflow: ellipsis;
+        white-space: normal; /* อนุญาตให้ขึ้นบรรทัดใหม่ได้ */
+    }
+     #sidebar:not(.collapsed) #session-list li.active {
+        background-color: #5171ff;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    /* ซ่อน container แชทหลักเมื่อแถบด้านข้างเปิดบนมือถือ */
+    #sidebar:not(.collapsed) + main#chat-container {
+        display: none !important;
+    }
+    /* เพิ่มช่องว่างเหนือ input แชทบนมือถือ */
+    #chat-form {
+        margin-top: 20px; /* เพิ่มช่องว่าง */
+    }
+}
+
+/* สไตล์ Auth Container */
+#auth-container {
+  max-width: 500px; /* เพิ่มจาก 400px */
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: rgba(20, 30, 60, 0.7);
+  border-radius: 12px;
+  box-shadow: 0 4px 22px rgba(81, 113, 255, 0.2);
+  border: 1px solid rgba(116, 155, 255, 0.2);
+}
+
+#login-section, #signup-section {
+  transition: all 0.3s ease;
+}
+
+/* สไตล์กลุ่มฟอร์ม */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* สไตล์ input ในฟอร์ม */
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+  border-radius: 8px;
+  background-color: rgba(20, 30, 60, 0.5);
+  color: #e0e6ff;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #7b91ff;
+  background-color: rgba(30, 40, 80, 0.7);
+  box-shadow: 0 0 8px rgba(123, 145, 255, 0.4);
+}
+
+/* ปุ่มยืนยันตัวตน */
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #5171ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: #7b91ff;
+  box-shadow: 0 0 12px rgba(123, 145, 255, 0.6);
+}
+
+/* ข้อความแจ้งเตือน */
+#auth-container p {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #b0bae6;
+}
+
+/* ลิงก์ใน Auth Container */
+#auth-container a {
+  color: #7b91ff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+#auth-container a:hover {
+  text-decoration: underline;
+  color: #a2b3ff;
+}
+
+/* หัวข้อใน Auth Container */
+#auth-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #e0e6ff;
+}
+
+/* กลุ่มปุ่มควบคุมผู้ใช้ (logout, new chat) */
+#user-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* จัดปุ่มไปทางขวา */
+  padding-right: 20px; /* เพิ่มระยะห่างทางขวาของ header */
+}
+
+#logout-btn {
+  background-color: rgba(30, 40, 80, 0.6);
+  color: #b0bae6;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#logout-btn:hover {
+  background-color: rgba(81, 113, 255, 0.3);
+  color: #e0e6ff;
+}
+
+/* สไตล์ปุ่มแชทใหม่ */
+#new-chat-btn { 
+  background-color: rgba(30, 40, 80, 0.6);
+  color: #b0bae6;
+  border: 1px solid rgba(116, 155, 255, 0.3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 8px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+#new-chat-btn:hover {
+  background-color: rgba(81, 113, 255, 0.3);
+  color: #e0e6ff;
+}
+
+/* สไตล์ข้อความ Error */
+.error-message {
+  color: #ff7a9e;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+/* สไตล์ข้อความ Success */
+.success-message {
+  color: #7aebff;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+/* สไตล์ข้อความ System */
+.message.system .bubble {
+  align-self: center; /* จัดข้อความ system กึ่งกลาง */
+  background: rgba(40, 50, 95, 0.7); /* พื้นหลังแตกต่าง */
+  color: #a2b3ff; /* สีข้อความแตกต่าง */
+  font-style: italic;
+  font-size: 0.9rem;
+  max-width: 60%;
+  text-align: center;
+  border: 1px dashed rgba(116, 155, 255, 0.4);
+}
+
+/* สไตล์ Responsive เพิ่มเติม */
+@media (max-width: 600px) {
+  #auth-container {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 1.5rem;
+  }
+}
+
+/* เพิ่มเอฟเฟกต์ดาวบนพื้นหลัง */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, 0.9) 1px, transparent 0),
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.8) 1px, transparent 0),
+    radial-gradient(1px 1px at 30% 50%, rgba(255, 255, 255, 0.7) 1px, transparent 0),
+    radial-gradient(1px 1px at 40% 70%, rgba(255, 255, 255, 0.6) 1px, transparent 0),
+    radial-gradient(1px 1px at 60% 30%, rgba(255, 255, 255, 0.7) 1px, transparent 0),
+    radial-gradient(1px 1px at 70% 20%, rgba(255, 255, 255, 0.8) 1px, transparent 0),
+    radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.9) 1px, transparent 0),
+    radial-gradient(1px 1px at 15% 80%, rgba(255, 255, 255, 0.8) 1px, transparent 0),
+    radial-gradient(1px 1px at 45% 95%, rgba(255, 255, 255, 0.7) 1px, transparent 0),
+    radial-gradient(1px 1px at 85% 75%, rgba(255, 255, 255, 0.6) 1px, transparent 0),
+    radial-gradient(1px 1px at 25% 65%, rgba(255, 255, 255, 0.5) 1px, transparent 0),
+    radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.6) 1px, transparent 0),
+    radial-gradient(2px 2px at 75% 55%, rgba(255, 255, 255, 0.4) 1px, transparent 0),
+    radial-gradient(2px 2px at 35% 65%, rgba(255, 255, 255, 0.5) 1px, transparent 0),
+    radial-gradient(2px 2px at 55% 85%, rgba(255, 255, 255, 0.6) 1px, transparent 0),
+    radial-gradient(2px 2px at 65% 45%, rgba(255, 255, 255, 0.5) 1px, transparent 0);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* แท็กไลน์ใต้ชื่อ */
+.tagline {
+  font-size: 0.9rem;
+  color: #b0bae6;
+  margin: 4px 0 12px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

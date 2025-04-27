@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BOOM BIG NOSE Chat</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">✧</div>
+      <h1 id="header-greeting">BOOM BIG NOSE</h1>
+      <p class="tagline">PLACE TO CREATE AND SHARE</p>
+      <div id="user-controls">
+        <button id="toggle-sidebar-btn" aria-label="ซ่อน/แสดงประวัติแชท" title="ซ่อน/แสดงประวัติแชท" style="display: none;">⏪</button>
+        <button id="new-chat-btn" style="display: none;">แชทใหม่</button>
+        <button id="logout-btn" style="display: none;">ออกจากระบบ</button>
+      </div>
+    </header>
+
+    <!-- ฟอร์มยืนยันตัวตน -->
+    <div id="auth-container">
+      <div id="login-section">
+        <h2>เข้าสู่ระบบ</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <input type="text" id="login-username" placeholder="ชื่อผู้ใช้" required />
+          </div>
+          <div class="form-group">
+            <input type="password" id="login-password" placeholder="รหัสผ่าน" required />
+          </div>
+          <button type="submit" class="auth-btn">เข้าสู่ระบบ ✧</button>
+        </form>
+        <p>ยังไม่มีบัญชี? <a href="#" id="show-signup">สมัครสมาชิก</a></p>
+      </div>
+
+      <div id="signup-section" style="display: none;">
+        <h2>สร้างบัญชีใหม่</h2>
+        <form id="signup-form">
+          <div class="form-group">
+            <input type="text" id="signup-username" placeholder="ชื่อผู้ใช้" required />
+          </div>
+          <div class="form-group">
+            <input type="password" id="signup-password" placeholder="รหัสผ่าน" required />
+          </div>
+          <div class="form-group">
+            <input type="password" id="signup-confirm" placeholder="ยืนยันรหัสผ่าน" required />
+          </div>
+          <button type="submit" class="auth-btn">สร้างบัญชี ✧</button>
+        </form>
+        <p>มีบัญชีอยู่แล้ว? <a href="#" id="show-login">เข้าสู่ระบบ</a></p>
+      </div>
+    </div>
+
+    <!-- ส่วนแสดงผลแชท -->
+    <div id="chat-wrapper" style="display: none;"> 
+      <!-- แถบด้านข้างสำหรับประวัติแชท -->
+      <aside id="sidebar">
+        <!-- ปุ่มสลับแถบด้านข้างถูกย้ายไปที่ header แล้ว -->
+        <h2>ประวัติแชท</h2>
+        <ul id="session-list">
+          <!-- รายการเซสชันจะถูกเพิ่มที่นี่โดย script.js -->
+        </ul>
+      </aside>
+
+      <!-- พื้นที่แชทหลัก -->
+      <main id="chat-container">
+        <div id="chat-messages"></div>
+        <form id="chat-form" autocomplete="off">
+        <div class="chat-input-row">
+          <button type="button" class="icon-btn" id="plus-btn">+</button>
+          <input type="text" id="chat-input" placeholder="Type your message to the cosmos..." required />
+          <button type="submit" class="send-btn" aria-label="Send">&#8593;</button>
+        </div>
+      </form>
+      <div class="action-buttons">
+        <button class="action-btn">✍️ เขียน</button>
+        <button class="action-btn">📚 เรียนรู้</button>
+        <button class="action-btn">💻 เขียนโค้ด</button>
+        <button class="action-btn">✨ ชีวิต</button>
+        <button class="action-btn">🚀 สำรวจ</button>
+      </div>
+      </main>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

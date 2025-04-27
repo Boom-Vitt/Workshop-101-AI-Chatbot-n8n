@@ -1,0 +1,19 @@
+{
+  "name": "BoomBigNose",
+  "version": "1.0.0",
+  "description": "เว็บแชทบอทภาษาไทย พร้อมระบบล็อกอิน และ webhook ใช้งานง่ายด้วย Docker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "BoomBigNose",
+  "license": "MIT",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "express": "^4.18.2",
+    "fs": "0.0.1-security",
+    "node-fetch": "^3.3.2",
+    "path": "^0.12.7"
+  },
+  "type": "module"
+}

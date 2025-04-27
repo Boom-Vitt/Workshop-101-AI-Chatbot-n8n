@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": "6277480c-dcf4-4b26-a9a2-d26f26ce17fe",
+      "username": "boom",
+      "password": "81f52337ebb4cb1669bb802c708807dde0519d15cb102a6313d26ad5cd821713",
+      "createdAt": "2025-04-26T09:20:48.548Z"
+    },
+    {
+      "id": "5be2cc99-0991-4720-a428-1969ae6172b1",
+      "username": "boom2",
+      "password": "81f52337ebb4cb1669bb802c708807dde0519d15cb102a6313d26ad5cd821713",
+      "createdAt": "2025-04-27T07:49:34.790Z"
+    }
+  ]
+}
